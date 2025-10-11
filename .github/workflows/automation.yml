@@ -21,6 +21,6 @@ jobs:
       - name: Run a multi-line script
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
-          name: arquitetura-upa-connect
+          name: arquitetura-upa-atualizada
           template: infra-template.yaml
           

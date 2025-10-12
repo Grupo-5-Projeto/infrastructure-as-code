@@ -160,7 +160,7 @@ Resources:
   S3BucketRaw:
     Type: "AWS::S3::Bucket"
     Properties:
-      BucketName: raw-iot-final-data-edu-2
+      BucketName: raw-iot-final-data-edu-22
       PublicAccessBlockConfiguration:
         BlockPublicAcls: false
         BlockPublicPolicy: false
@@ -190,7 +190,7 @@ Resources:
   S3BucketTrusted:
     Type: "AWS::S3::Bucket"
     Properties:
-      BucketName: trusted-iot-final-data-edu-2
+      BucketName: trusted-iot-final-data-edu-22
       PublicAccessBlockConfiguration:
         BlockPublicAcls: false
         BlockPublicPolicy: false
@@ -220,7 +220,7 @@ Resources:
   S3BucketClient:
     Type: "AWS::S3::Bucket"
     Properties:
-      BucketName: client-iot-final-data-edu-2
+      BucketName: client-iot-final-data-edu-22
       PublicAccessBlockConfiguration:
         BlockPublicAcls: false
         BlockPublicPolicy: false
@@ -246,19 +246,6 @@ Resources:
                 - - "arn:aws:s3:::"
                   - Ref: "S3BucketClient"
                   - "/*"
-
-  LambdaInputData:
-    Type: AWS::Lambda::Function
-    Properties:
-      FunctionName: LambdaInputData
-      Runtime: python3.9
-      Handler: index.lambda_handler
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
-      Timeout: 60
-      MemorySize: 128
-      Code:
-        S3Bucket: !Ref S3BucketRaw
-        S3Key: index.zip
 
   SensorDataTable:
     Type: AWS::DynamoDB::Table
@@ -302,79 +289,6 @@ Resources:
       Tags:
         - Key: Project
           Value: Healthcare
-
-  RestApi:
-    Type: AWS::ApiGateway::RestApi
-    Properties:
-      Name: "ApiGatewayIoT"
-      Parameters:
-        endpointConfigurationTypes: REGIONAL
-      BinaryMediaTypes:
-        - "application/json"
-
-  IoTDataResource:
-    Type: AWS::ApiGateway::Resource
-    Properties:
-      RestApiId: !Ref RestApi
-      ParentId: !GetAtt RestApi.RootResourceId
-      PathPart: "iot"
-
-  PostMethod:
-    Type: AWS::ApiGateway::Method
-    Properties:
-      AuthorizationType: NONE
-      HttpMethod: POST
-      RestApiId: !Ref RestApi
-      ResourceId: !Ref IoTDataResource
-      Integration:
-        Type: AWS
-        IntegrationHttpMethod: POST
-        Uri: !Sub
-          - arn:aws:apigateway:${Region}:lambda:path/2015-03-31/functions/${LambdaArn}/invocations
-          - Region: !Ref "AWS::Region"
-            LambdaArn: !GetAtt LambdaInputData.Arn
-        PassthroughBehavior: WHEN_NO_MATCH
-        Credentials: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
-        IntegrationResponses:
-          - StatusCode: 200
-            ResponseTemplates:
-              application/json: ""
-      MethodResponses:
-        - StatusCode: 200
-
-  RestApiDeploy:
-    Type: AWS::ApiGateway::Deployment
-    DependsOn: PostMethod
-    Properties:
-      RestApiId: !Ref RestApi
-      StageName: prod
-
-  LambdaProcessorDynamo:
-    Type: AWS::Lambda::Function
-    Properties:
-      FunctionName: LambdaProcessorDynamo
-      Runtime: python3.9
-      Handler: scheduler.lambda_handler
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
-      Timeout: 60
-      MemorySize: 128
-      Code:
-        S3Bucket: !Ref S3BucketRaw
-        S3Key: scheduler.zip
-
-  EventBridgeScheduler:
-    Type: AWS::Scheduler::Schedule
-    Properties:
-      FlexibleTimeWindow:
-        MaximumWindowInMinutes: 1
-        Mode: "FLEXIBLE"
-      Name: "SchedulerProcessIotData"
-      ScheduleExpression: "rate(5 minutes)"
-      ScheduleExpressionTimezone: America/Sao_Paulo
-      State: ENABLED
-      Target:
-        Arn: !GetAtt LambdaProcessorDynamo.Arn
-        RoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
 
   Instance:
     DependsOn: [RouteTableAssociationPublicSubnet, InstanceSecurityGroup]

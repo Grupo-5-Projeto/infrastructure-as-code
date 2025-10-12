@@ -26,6 +26,6 @@ jobs:
           no-execute-changeset: 1
       
   call-lambdas-workflow:
-    uses: Grupo-5-Projeto/lambdas/blob/main/.github/workflows/deploy.yml
+    uses: Grupo-5-Projeto/lambdas/blob/main/.github/workflows/deploy.yml@main
     secrets: inherit
           

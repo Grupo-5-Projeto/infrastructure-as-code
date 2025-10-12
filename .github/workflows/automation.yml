@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Configurar credenciais AWS
+      - name: aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_ORG }}
@@ -17,12 +17,15 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN_ORG }}
           aws-region: ${{ secrets.AWS_REGION_ORG }}
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: deploy cloudformation
         uses: aws-actions/aws-cloudformation-github-deploy@v1.2.0
         with:
           name: arquitetura-upa-atualizada
           template: infra-template.yaml
           no-fail-on-empty-changeset: 1
           no-execute-changeset: 1
+      
+  call-lambdas-workflow:
+    uses: Grupo-5-Projeto/lambdas/blob/main/.github/workflows/deploy.yml
+    secrets: inherit
           

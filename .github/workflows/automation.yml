@@ -27,5 +27,4 @@ jobs:
       
   call-lambdas-workflow:
     uses: Grupo-5-Projeto/lambdas/.github/workflows/deploy.yml@main
-    secrets: inherit
           

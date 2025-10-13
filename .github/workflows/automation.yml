@@ -26,5 +26,6 @@ jobs:
           no-execute-changeset: 1
       
   call-lambdas-workflow:
+    needs: infra-as-code
     uses: Grupo-5-Projeto/lambdas/.github/workflows/deploy.yml@main
     secrets: inherit

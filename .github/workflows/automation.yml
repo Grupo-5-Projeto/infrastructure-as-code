@@ -29,3 +29,10 @@ jobs:
     needs: infra-as-code
     uses: Grupo-5-Projeto/lambdas/.github/workflows/deploy.yml@main
     secrets: inherit
+
+  instances-config:
+    needs: infra-as-code
+    steps:
+      - name: test
+        run: |
+          ansible-playbook -i inventory.ini playbook.yaml

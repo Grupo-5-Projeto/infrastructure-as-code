@@ -38,6 +38,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: test
         run: |
+          echo "${{env.KEY_PEM_ORG}}" >> key.pem
           ls
-          cd ansible
-          ansible-playbook -i inventory.ini playbook.yaml
+          ansible-playbook -i inventory.ini playbook.yaml --private-key key.pem

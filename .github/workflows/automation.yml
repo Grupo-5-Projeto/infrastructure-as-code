@@ -39,6 +39,7 @@ jobs:
       - name: test
         run: |
           cd ansible
-          echo "${{ secrets.KEY_PEM_ORG }}" | tr -d '\r' | sed 's/\\n/\n/g' > key.pem
+          echo "${{secrets.KEY_PEM_ORG}}" > key.pem
           chmod 400 key.pem
-          ansible-playbook -i inventory.ini --private-key key.pem -u ec2-user playbook.yaml 
+          ssh -i "key.pem" ec2-user@54.165.204.236
+          

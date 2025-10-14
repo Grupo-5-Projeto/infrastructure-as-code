@@ -37,5 +37,6 @@ jobs:
     steps:
       - name: test
         run: |
+          ls
           cd ansible
           ansible-playbook -i inventory.ini playbook.yaml

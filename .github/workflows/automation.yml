@@ -36,6 +36,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_ORG }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ORG }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN_ORG }}
+          aws-region: ${{ secrets.AWS_REGION_ORG }}
+  
+
       - name: test
         run: |
           cd ansible

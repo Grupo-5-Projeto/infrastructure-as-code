@@ -41,5 +41,5 @@ jobs:
           cd ansible
           echo {{secrets.KEY_PEM_ORG}} >> key.pem
           ls
-          nano key.pem
+          cat key.pem
           ansible-playbook -i inventory.ini --private-key ./key.pem -u ec2-user playbook.yaml 

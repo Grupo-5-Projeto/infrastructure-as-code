@@ -39,7 +39,7 @@ jobs:
       - name: test
         run: |
           cd ansible
-          echo {{secrets.KEY_PEM_ORG}} >> key.pem
+          echo ${{secrets.KEY_PEM_ORG}} >> key.pem
           ls
           cat key.pem
           ansible-playbook -i inventory.ini --private-key ./key.pem -u ec2-user playbook.yaml 

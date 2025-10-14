@@ -26,10 +26,10 @@ jobs:
           no-fail-on-empty-changeset: 1
           no-execute-changeset: 1
       
-  call-lambdas-workflow:
-    needs: infra-as-code
-    uses: Grupo-5-Projeto/lambdas/.github/workflows/deploy.yml@main
-    secrets: inherit
+  # call-lambdas-workflow:
+  #   needs: infra-as-code
+  #   uses: Grupo-5-Projeto/lambdas/.github/workflows/deploy.yml@main
+  #   secrets: inherit
 
   instances-config:
     needs: infra-as-code
@@ -37,4 +37,5 @@ jobs:
     steps:
       - name: test
         run: |
+          cd ansible
           ansible-playbook -i inventory.ini playbook.yaml

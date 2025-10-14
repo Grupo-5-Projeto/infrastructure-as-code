@@ -33,6 +33,7 @@ jobs:
 
   instances-config:
     needs: infra-as-code
+    runs-on: ubuntu-latest
     steps:
       - name: test
         run: |

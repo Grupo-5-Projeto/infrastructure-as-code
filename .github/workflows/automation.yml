@@ -35,6 +35,7 @@ jobs:
     needs: infra-as-code
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: test
         run: |
           ls

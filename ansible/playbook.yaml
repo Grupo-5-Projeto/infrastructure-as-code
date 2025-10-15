@@ -32,8 +32,8 @@
       changed_when: "'Complete!' in result.stdout or 'Nothing to do' in result.stdout"
       failed_when: result.rc != 0 and not ('Nothing to do' in result.stdout or 'already installed' in result.stdout)
 
-    - name: copy docker and .env
-      copy:
-        src: ./template/docker-compose.yml
-        dest: /home/ec2-user/docker-compose.yml
-        mode: '0644'
+    # - name: copy docker and .env
+    #   copy:
+    #     src: ./template/docker-compose.yml
+    #     dest: /home/ec2-user/docker-compose.yml
+    #     mode: '0644'

@@ -1,8 +1,8 @@
 - hosts: ec2
+  become: yes
+  gather_facts: no
   tasks:
     - name: Ping my hosts
-      become: yes
-      gather_facts: no
       raw: |
         pip3 install "boto3<=1.26.164" "urllib3<2.0" papermill
       register: result

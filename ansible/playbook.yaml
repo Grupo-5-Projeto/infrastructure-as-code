@@ -33,7 +33,6 @@
       failed_when: result.rc != 0 and not ('Nothing to do' in result.stdout or 'already installed' in result.stdout)
 
     - name: copy docker and .env
-      become: true 
       copy:
         src: ./template/docker-compose.yml
         dest: /home/ec2-user/docker-compose.yml

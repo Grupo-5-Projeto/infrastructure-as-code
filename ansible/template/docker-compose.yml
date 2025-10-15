@@ -1,0 +1,17 @@
+version: "3"
+services:
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - AWS_ACCESS_KEY_ID=${ACCESS_KEY}
+      - AWS_SECRET_ACCESS_KEY=${SECRET_ACCESS_KEY}
+      - AWS_SESSION_TOKEN=${SESSION_TOKEN}
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ~/grafana-aws/credentials:/root/.aws/credentials:ro
+
+volumes:
+  grafana-storage:

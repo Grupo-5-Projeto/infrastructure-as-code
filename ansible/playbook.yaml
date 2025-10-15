@@ -2,9 +2,38 @@
   become: yes
   gather_facts: no
   tasks:
-    - name: Ping my hosts
+    - name: update yum
+      raw: |
+        sudo yum update && sudo yum 
+        
+    - name: install docker
+      raw: |
+        sudo amazon-linux-extras install docker
+        sudo service docker start
+        sudo usermod -a -G docker ec2-user 
+      register: result
+      changed_when: "'Complete!' in result.stdout or 'Nothing to do' in result.stdout"
+      failed_when: result.rc != 0 and not ('Nothing to do' in result.stdout or 'already installed' in result.stdout)
+    
+    - name: config composer
+      raw: |
+        DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+        mkdir -p $DOCKER_CONFIG/cli-plugins
+        curl -SL https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+        chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+      register: result
+      changed_when: "'Complete!' in result.stdout or 'Nothing to do' in result.stdout"
+      failed_when: result.rc != 0 and not ('Nothing to do' in result.stdout or 'already installed' in result.stdout)
+
+    - name: install python libs
       raw: |
         pip3 install "boto3<=1.26.164" "urllib3<2.0" papermill
       register: result
       changed_when: "'Complete!' in result.stdout or 'Nothing to do' in result.stdout"
       failed_when: result.rc != 0 and not ('Nothing to do' in result.stdout or 'already installed' in result.stdout)
+
+    - name: copy docker and .env
+      copy:
+        src: ./template/
+        dest: /home/ec2-user/
+        mode: '0755'

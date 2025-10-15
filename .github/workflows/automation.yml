@@ -73,7 +73,7 @@ jobs:
       - name: test
         run: |
           cd ansible/template
-          scp -i ../urubu100-key.pem -o StrictHostKeyChecking=no ./ ec2-user@${{env.EC2_IP}}:/home/ec2-user/
+          scp -i ../urubu100-key.pem -o StrictHostKeyChecking=no ./* ec2-user@${{env.EC2_IP}}:/home/ec2-user/
 
 
       - name: configure instances

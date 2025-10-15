@@ -43,13 +43,15 @@ jobs:
           echo "${{ secrets.KEY_PEM_ORG }}" | sed 's/\\n/\n/g' > urubu100-key.pem
           chmod 600 urubu100-key.pem
 
-      - name: Testar conexão SSH (opcional, útil para debug)
-        run: |
-          cd ansible
-          ssh -i urubu100-key.pem -o StrictHostKeyChecking=no ec2-user@52.91.0.175 "echo 'Conectado com sucesso!'"
+      # - name: Testar conexão SSH (opcional, útil para debug)
+      #   run: |
+      #     cd ansible
+      #     ssh -i urubu100-key.pem -o StrictHostKeyChecking=no ec2-user@52.91.0.175 "echo 'Conectado com sucesso!'"
 
 
       - name: test
+        working-directory: ansible
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "False"
         run: |
-          cd ansible
           ansible-playbook -i inventory playbook.yaml

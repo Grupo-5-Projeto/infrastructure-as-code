@@ -4,7 +4,7 @@
   tasks:
     - name: update yum
       raw: |
-        sudo yum update && sudo yum 
+        sudo yum update && sudo yum upgrade
         
     - name: install docker
       raw: |

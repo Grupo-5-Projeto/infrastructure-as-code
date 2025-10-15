@@ -36,5 +36,5 @@
       become: true 
       copy:
         src: ./template/docker-compose.yml
-        dest: /opt/
+        dest: /home/ec2-user/docker-compose.yml
         mode: '0644'

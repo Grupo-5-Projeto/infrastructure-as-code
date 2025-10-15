@@ -54,7 +54,7 @@ jobs:
         working-directory: ansible
         run: |
           echo "[ec2]" >> inventory
-          echo "${{env.EC2_IP}} ansible_user=ec2-user ansible_ssh_private_key_file=./urubu100-key.pem"
+          echo "${{env.EC2_IP}} ansible_user=ec2-user ansible_ssh_private_key_file=./urubu100-key.pem" >> inventory
 
       - name: key
         working-directory: ansible
@@ -68,9 +68,8 @@ jobs:
           echo "ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID_ORG }}" >> .env
           echo "SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_ORG }}" >> .env
           echo "SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN_ORG }}" >> .env
-          cat .env
 
-      - name: test
+      - name: configure instances
         working-directory: ansible
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"

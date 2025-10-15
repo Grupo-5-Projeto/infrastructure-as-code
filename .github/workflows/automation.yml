@@ -41,5 +41,4 @@ jobs:
           cd ansible
           echo "${{secrets.KEY_PEM_ORG}}" > urubu100-key.pem
           chmod 400 urubu100-key.pem
-          ls
-          ssh -i "urubu100-key.pem" ec2-user@52.91.0.175 -y
+          ansible-playbook -i inventory playbook.yaml 

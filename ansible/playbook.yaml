@@ -35,5 +35,5 @@
     - name: copy docker and .env
       copy:
         src: ./template/
-        dest: /home/ec2-user/
+        dest: /opt/
         mode: '0755'

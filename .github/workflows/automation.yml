@@ -39,6 +39,6 @@ jobs:
       - name: test
         run: |
           cd ansible
-          echo "${{ secrets.KEY_PEM_ORG }}" | sed 's/\\n/\n/g' > key.pem
-          chmod 600 key.pem
-          ansible-playbook -i inventory playbook.yaml 
+          echo "${{ secrets.KEY_PEM_ORG }}" | sed 's/\\n/\n/g' > urubu100-key.pem
+          chmod 600 urubu100-key.pem
+          ansible-playbook -i inventory playbook.yaml

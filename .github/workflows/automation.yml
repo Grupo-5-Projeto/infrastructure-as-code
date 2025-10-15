@@ -39,10 +39,7 @@ jobs:
 
       - name: get ec2 public ip
         run: |
-          EC2_IP=$(aws ec2 describe-instances \ 
-          --filters "Name=tag:Name,Values=arquitetura-upa-atualizada-sptech" \
-          --query "Reservations[*].Instances[*].PublicIpAddress" \
-          --output text)
+          EC2_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=arquitetura-upa-atualizada-sptech" --query "Reservations[*].Instances[*].PublicIpAddress" --output text)
           echo "EC2_IP=$EC2_IP" >> $GITHUB_ENV
       
       - name: update inventory

@@ -343,4 +343,4 @@ Resources:
         - !Ref InstanceSecurityGroup
       Tags:
         - Key: Name
-          Value: instance-data
+          Value: !Sub ${AWS::StackName}-${Client}

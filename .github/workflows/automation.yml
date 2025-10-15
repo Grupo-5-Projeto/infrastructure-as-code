@@ -70,6 +70,12 @@ jobs:
           echo "SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_ORG }}" >> .env
           echo "SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN_ORG }}" >> .env
 
+      - name: test
+        run: |
+          cd ansible/template
+          scp -i ${{secrets.KEY_PEM_ORG}} -o StrictHostKeyChecking=no ./ ec2-user@${{env.HOST_IP}}:/home/ec2-user/
+
+
       - name: configure instances
         working-directory: ansible
         env:

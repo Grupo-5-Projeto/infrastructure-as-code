@@ -14,7 +14,7 @@ ARQUIVO_CONTROLE = 'arquivos_processados.json'
 try:
     print(BUCKET_RAW, BUCKET_TRUSTED)
     s3 = boto3.client('s3')
-
+    arquivos_processados = None
     if os.path.exists(ARQUIVO_CONTROLE):
         with open(ARQUIVO_CONTROLE, 'r') as f:
             arquivos_processados = set(json.load(f))
@@ -33,7 +33,7 @@ try:
         v for v in response.get('Versions', [])
         if v.get('IsLatest', False)
     ]
-    
+
     for item in latest_objects:
         chave = item['Key']
         data_modificacao = item['LastModified'].astimezone(pytz.timezone("America/Sao_paulo")).date()

@@ -65,7 +65,7 @@ jobs:
 
       - name: set credentials .env
         run: |
-          cd ansible/docker
+          cd ./docker
           echo "ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID_ORG }}" > .env
           echo "SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_ORG }}" >> .env
           echo "SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN_ORG }}" >> .env
@@ -73,7 +73,6 @@ jobs:
       - name: copy archives to instace
         run: |
           scp -i ../urubu100-key.pem -o StrictHostKeyChecking=no ./docker{*,.*} ec2-user@${{env.EC2_IP}}:/home/ec2-user/docker
-
 
       - name: configure instances
         working-directory: ansible

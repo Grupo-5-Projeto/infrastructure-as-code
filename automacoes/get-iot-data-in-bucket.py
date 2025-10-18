@@ -46,6 +46,7 @@ try:
             novos_arquivos.append(chave)
 
     for arquivo in novos_arquivos:
+        print(arquivo)
         try:
             pm.execute_notebook(
                 input_path='/home/ec2-user/tratativas/tratamento-e-envio-edu.ipynb',

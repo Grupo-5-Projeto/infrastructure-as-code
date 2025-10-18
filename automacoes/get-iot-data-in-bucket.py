@@ -28,8 +28,12 @@ try:
     novos_arquivos = []
 
     response = s3.list_objects_v2(Bucket=BUCKET_RAW, Prefix=PREFIXO)
-    print(len(response.get('Contents', [])))
-    for item in response.get('Contents', []):
+    latest_objects = [
+        v for v in response.get('Versions', [])
+        if v.get('IsLatest', False)
+    ]
+    print(len(latest_objects))
+    for item in latest_objects:
         chave = item['Key']
         data_modificacao = item['LastModified'].astimezone(pytz.timezone("America/Sao_paulo")).date()
         

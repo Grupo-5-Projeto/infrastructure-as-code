@@ -51,14 +51,12 @@ jobs:
           echo "EC2_IP=$EC2_IP" >> $GITHUB_ENV
       
       - name: update inventory
-        working-directory: ansible
         run: |
           echo "[ec2]" > inventory
           echo "${{env.EC2_IP}} ansible_user=ec2-user ansible_ssh_private_key_file=./urubu100-key.pem" >> inventory
           cat inventory
 
       - name: key
-        working-directory: ansible
         run: |
           echo "${{ secrets.KEY_PEM_ORG }}" > urubu100-key.pem
           chmod 400 urubu100-key.pem

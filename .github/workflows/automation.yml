@@ -71,7 +71,7 @@ jobs:
       - name: copy archives to instace
         run: |
           ls
-          scp -i ./urubu100-key.pem -o StrictHostKeyChecking=no ./docker{*,.*} ec2-user@${{env.EC2_IP}}:/home/ec2-user/docker
+          scp -i ./urubu100-key.pem -o StrictHostKeyChecking=no ./docker/{*,.*} ec2-user@${{env.EC2_IP}}:/home/ec2-user/docker
 
       - name: configure instances
         working-directory: ansible

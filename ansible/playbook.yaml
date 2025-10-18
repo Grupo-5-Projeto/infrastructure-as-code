@@ -45,6 +45,6 @@
     - name: Adicionar entrada no crontab manualmente
       raw: |
         (crontab -l 2>/dev/null; cat << 'EOF'
-        * * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /var/log/python_script.log 2>&1
+        5 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /var/log/python_script.log 2>&1
         EOF
         ) | crontab -

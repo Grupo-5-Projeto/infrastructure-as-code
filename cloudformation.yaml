@@ -306,7 +306,7 @@ Resources:
     Properties:
       KeyName: !Ref Ec2KeyPairName
       ImageId: !Ref Ec2AmiId
-      InstanceType: t3.small
+      InstanceType: t3.large
       SubnetId: !Ref PublicSubnet
       IamInstanceProfile: !Ref Ec2IamInstanceProfile
       UserData:

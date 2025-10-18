@@ -14,7 +14,6 @@ PREFIXO = 'iot'
 ARQUIVO_CONTROLE = 'arquivos_processados.json'
 
 try:
-    print(BUCKET_RAW, BUCKET_TRUSTED)
     s3 = boto3.client('s3')
 
     # Carrega ou cria o arquivo de controle

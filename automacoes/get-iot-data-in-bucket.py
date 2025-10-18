@@ -42,7 +42,10 @@ try:
         ).date()
 
         if data_modificacao == hoje and chave not in arquivos_processados:
+            print("arquivo para processar", chave)
             novos_arquivos.append(chave)
+        else:
+            print("nenhum novo arquivo encontrado")
 
     for arquivo in novos_arquivos:
         print(arquivo)

@@ -62,17 +62,26 @@ jobs:
           echo "${{ secrets.KEY_PEM_ORG }}" > urubu100-key.pem
           chmod 400 urubu100-key.pem
 
-      - name: set credentials .env
+      - name: set docker credentials .env
         run: |
           cd ./docker
           echo "ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID_ORG }}" > .env
           echo "SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_ORG }}" >> .env
           echo "SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN_ORG }}" >> .env
 
-      - name: copy archives to instace
+      - name: copy docker archives to instace
         run: |
-          ls
           scp -i ./urubu100-key.pem -o StrictHostKeyChecking=no ./docker/{*,.*} ec2-user@${{env.EC2_IP}}:/home/ec2-user/docker
+      
+      - name: set automacoes credentials .env
+        run: |
+          cd ./automacoes
+          echo "BUCKET_RAW=${{ env.BUCKET_RAW }}" > .env
+          echo "BUCKET_TRUSTED"=${{ env.BUCKET_TRUSTED }}" >> .env
+
+      - name: copy automacoes archives to instace
+        run: |
+          scp -i ./urubu100-key.pem -o StrictHostKeyChecking=no ./automacoes/{*,.*} ec2-user@${{env.EC2_IP}}:/home/ec2-user/automacoes
 
       - name: configure instances
         working-directory: ansible

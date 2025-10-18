@@ -11,7 +11,7 @@ load_dotenv('/home/ec2-user/automacoes/.env')
 BUCKET_RAW = os.getenv("BUCKET_RAW")
 BUCKET_TRUSTED = os.getenv("BUCKET_TRUSTED")
 PREFIXO = 'iot'
-ARQUIVO_CONTROLE = 'arquivos_processados.json'
+ARQUIVO_CONTROLE = '/home/ec2-user/automacoes/arquivos_processados.json'
 
 try:
     s3 = boto3.client('s3')

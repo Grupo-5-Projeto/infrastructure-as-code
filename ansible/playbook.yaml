@@ -37,10 +37,8 @@
         cd docker
         docker compose up -d
 
-    - name: Criar tarefa no cron
-      cron:
-        name: "Executar script Python com .env"
-        minute: "1"
-        hour: "0"
-        user: ec2-user
-        job: "cd automacoes && set -a && source .env && set +a && usr/bin/python3 get-iot-data-in-bucket.py >> /var/log/python_script.log 2>&1"
+    - name: Adicionar entrada no crontab manualmente
+      lineinfile:
+        path: /var/spool/cron/ec2-user
+        line: "* * * * * cd /home/ec2-user/automacoes && set -a && source .env && set +a && /usr/bin/python3 get-iot-data-in-bucket.py >> /var/log/python_script.log 2>&1"
+        create: yes

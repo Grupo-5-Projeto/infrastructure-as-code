@@ -81,8 +81,8 @@ jobs:
       - name: set automacoes credentials .env
         run: |
           cd ./automacoes
-          echo "BUCKET_RAW=${{ env.BUCKET_RAW }}" > .env
-          echo "BUCKET_TRUSTED=${{ env.BUCKET_TRUSTED }}" >> .env
+          echo "BUCKET_RAW=${{ vars.BUCKET_RAW }}" > .env
+          echo "BUCKET_TRUSTED=${{ vars.BUCKET_TRUSTED }}" >> .env
           cat .env
 
       - name: copy automacoes archives to instace

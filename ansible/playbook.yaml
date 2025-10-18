@@ -27,7 +27,7 @@
 
     - name: install python libs
       raw: |
-        pip3 install "boto3<=1.26.164" "urllib3<2.0" papermill
+        pip3 install "boto3<=1.26.164" "urllib3<2.0" papermill load_dotenv
       register: result
       changed_when: "'Complete!' in result.stdout or 'Nothing to do' in result.stdout"
       failed_when: result.rc != 0 and not ('Nothing to do' in result.stdout or 'already installed' in result.stdout)

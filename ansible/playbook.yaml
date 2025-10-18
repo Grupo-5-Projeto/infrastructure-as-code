@@ -51,4 +51,4 @@
         (crontab -l 2>/dev/null; cat << 'EOF'
         2 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /home/ec2-user/log/python_script.log 2>&1
         EOF
-        ) | crontab -u ec2-user -
+        ) | crontab -

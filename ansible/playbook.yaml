@@ -37,8 +37,14 @@
         cd docker
         docker compose up -d
 
+    - name: start crond 
+      raw: |
+        sudo systemctl enable crond
+        sudo systemctl start crond
+
     - name: Adicionar entrada no crontab manualmente
-      lineinfile:
-        path: home/ec2-user/cron
-        line: "* * * * * cd /home/ec2-user/automacoes && set -a && source .env && set +a && /usr/bin/python3 get-iot-data-in-bucket.py >> /var/log/python_script.log 2>&1"
-        create: yes
+      raw: |
+        (crontab -l 2>/dev/null; cat << 'EOF'
+        * * * * * . /home/ec2-user/automacoes/.env && /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /var/log/python_script.log 2>&1
+        EOF
+        ) | crontab -

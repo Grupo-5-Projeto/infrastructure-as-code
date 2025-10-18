@@ -10,6 +10,7 @@ BUCKET_TRUSTED = os.environ.get("BUCKET_TRUSTED")
 PREFIXO = 'iot'
 ARQUIVO_CONTROLE = 'arquivos_processados.json'
 try:
+    print(BUCKET_RAW, BUCKET_TRUSTED)
     s3 = boto3.client('s3')
 
     if os.path.exists(ARQUIVO_CONTROLE):
@@ -25,6 +26,7 @@ try:
     novos_arquivos = []
 
     response = s3.list_objects_v2(Bucket=BUCKET_RAW, Prefix=PREFIXO)
+    print(len(response))
     for item in response.get('Contents', []):
         chave = item['Key']
         data_modificacao = item['LastModified'].astimezone(pytz.timezone("America/Sao_paulo")).date()

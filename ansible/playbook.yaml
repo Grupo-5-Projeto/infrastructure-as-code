@@ -39,6 +39,6 @@
 
     - name: Adicionar entrada no crontab manualmente
       lineinfile:
-        path: /var/spool/cron/ec2-user
+        path: home/ec2-user/cron
         line: "* * * * * cd /home/ec2-user/automacoes && set -a && source .env && set +a && /usr/bin/python3 get-iot-data-in-bucket.py >> /var/log/python_script.log 2>&1"
         create: yes

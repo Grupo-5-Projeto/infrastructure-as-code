@@ -4,9 +4,11 @@ from datetime import datetime, timezone
 import json
 import os
 import pytz
+from dotenv import load_dotenv
+load_dotenv('~/home/ec2-user/automacoes/.env')
 
-BUCKET_RAW = os.environ.get("BUCKET_RAW")
-BUCKET_TRUSTED = os.environ.get("BUCKET_TRUSTED")
+BUCKET_RAW = os.getenv("BUCKET_RAW")
+BUCKET_TRUSTED = os.getenv("BUCKET_TRUSTED")
 PREFIXO = 'iot'
 ARQUIVO_CONTROLE = 'arquivos_processados.json'
 try:

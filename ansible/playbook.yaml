@@ -4,47 +4,47 @@
   tasks:
     - name: update yum
       raw: |
-        sudo yum update && sudo yum upgrade
+        sudo yum update && sudo yum upgrade -y
         
-    - name: install docker
-      raw: |
-        sudo amazon-linux-extras install docker
-        sudo service docker start
-        sudo usermod -a -G docker ec2-user 
-      register: result_install
-      changed_when: "'Complete!' in result_install.stdout or 'Nothing to do' in result_install.stdout"
-      failed_when: result_install.rc != 0 and not ('Nothing to do' in result_install.stdout or 'already installed' in result_install.stdout)
+    # - name: install docker
+    #   raw: |
+    #     sudo amazon-linux-extras install docker
+    #     sudo service docker start
+    #     sudo usermod -a -G docker ec2-user 
+    #   register: result_install
+    #   changed_when: "'Complete!' in result_install.stdout or 'Nothing to do' in result_install.stdout"
+    #   failed_when: result_install.rc != 0 and not ('Nothing to do' in result_install.stdout or 'already installed' in result_install.stdout)
     
-    - name: config composer
-      raw: |
-        DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
-        mkdir -p $DOCKER_CONFIG/cli-plugins
-        curl -SL https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
-        chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
-      register: result
-      changed_when: "'Complete!' in result.stdout or 'Nothing to do' in result.stdout"
-      failed_when: result.rc != 0 and not ('Nothing to do' in result.stdout or 'already installed' in result.stdout)
+    # - name: config composer
+    #   raw: |
+    #     DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+    #     mkdir -p $DOCKER_CONFIG/cli-plugins
+    #     curl -SL https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+    #     chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+    #   register: result
+    #   changed_when: "'Complete!' in result.stdout or 'Nothing to do' in result.stdout"
+    #   failed_when: result.rc != 0 and not ('Nothing to do' in result.stdout or 'already installed' in result.stdout)
 
-    - name: install python libs
-      raw: |
-        pip3 install "boto3<=1.26.164" "urllib3<2.0" papermill load_dotenv
-      register: result
-      changed_when: "'Complete!' in result.stdout or 'Nothing to do' in result.stdout"
-      failed_when: result.rc != 0 and not ('Nothing to do' in result.stdout or 'already installed' in result.stdout)
+    # - name: install python libs
+    #   raw: |
+    #     pip3 install "boto3<=1.26.164" "urllib3<2.0" papermill load_dotenv
+    #   register: result
+    #   changed_when: "'Complete!' in result.stdout or 'Nothing to do' in result.stdout"
+    #   failed_when: result.rc != 0 and not ('Nothing to do' in result.stdout or 'already installed' in result.stdout)
 
-    - name: start docker compose
-      raw: |
-        cd docker
-        docker compose up -d
+    # - name: start docker compose
+    #   raw: |
+    #     cd docker
+    #     docker compose up -d
 
-    - name: start crond 
-      raw: |
-        sudo systemctl enable crond
-        sudo systemctl start crond
+    # - name: start crond 
+    #   raw: |
+    #     sudo systemctl enable crond
+    #     sudo systemctl start crond
 
-    - name: Adicionar entrada no crontab manualmente
-      raw: |
-        (crontab -l 2>/dev/null; cat << 'EOF'
-        5 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /var/log/python_script.log 2>&1
-        EOF
-        ) | crontab -
+    # - name: Adicionar entrada no crontab manualmente
+    #   raw: |
+    #     (crontab -l 2>/dev/null; cat << 'EOF'
+    #     5 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /var/log/python_script.log 2>&1
+    #     EOF
+    #     ) | crontab -

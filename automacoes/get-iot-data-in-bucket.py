@@ -38,7 +38,7 @@ try:
     for arquivo in novos_arquivos:
         try:
             pm.execute_notebook(
-                input_path='~/home/ec2-user/tratativas/tratamento-e-envio-edu.ipynb',
+                input_path='/home/ec2-user/tratativas/tratamento-e-envio-edu.ipynb',
                 output_path='saida.ipynb',
                 parameters={
                     'archive_name': arquivo, 

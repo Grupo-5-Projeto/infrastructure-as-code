@@ -42,13 +42,13 @@
         sudo systemctl enable crond
         sudo systemctl start crond
 
-    - name: test
-      raw: |
-        sudo chown -R ec2-user:ec2-user /home/ec2-user/
+    # - name: test
+    #   raw: |
+    #     sudo chown -R ec2-user:ec2-user /home/ec2-user/
 
-    - name: Adicionar entrada no crontab manualmente
-      raw: |
-        (crontab -l 2>/dev/null; cat << 'EOF'
-        2 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /home/ec2-user/log/python_script.log 2>&1
-        EOF
-        ) | crontab -
+    # - name: Adicionar entrada no crontab manualmente
+    #   raw: |
+    #     (crontab -l 2>/dev/null; cat << 'EOF'
+    #     2 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /home/ec2-user/log/python_script.log 2>&1
+    #     EOF
+    #     ) | crontab -

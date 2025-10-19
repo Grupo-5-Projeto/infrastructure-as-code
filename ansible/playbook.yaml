@@ -46,12 +46,12 @@
       raw: |
         mkdir /home/ec2-user/log
         touch /home/ec2-user/log/python_script.log
-        touch /home/ec2-user/automacoes/arquivos_processados.json
+        [ ! -f /home/ec2-user/automacoes/arquivos_processados.json ] && echo "[]" > /home/ec2-user/automacoes/arquivos_processados.json
         sudo chmod 646 /home/ec2-user/automacoes/arquivos_processados.json
 
     - name: Adicionar entrada no crontab manualmente
       raw: |
         (crontab -l 2>/dev/null; cat << 'EOF'
-        5 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /home/ec2-user/log/python_script.log 2>> /home/ec2-user/log/python_error.log
+        */5 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /home/ec2-user/log/python_script.log 2>> /home/ec2-user/log/python_error.log
         EOF
         ) | crontab -

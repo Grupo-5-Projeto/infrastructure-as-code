@@ -27,7 +27,7 @@
 
     - name: install python libs
       raw: |
-        pip3 install "boto3<=1.26.164" "urllib3<2.0" papermill load_dotenv
+        pip3 install "boto3<=1.26.164" "urllib3<2.0" papermill dotenv
       register: result
       changed_when: "'Complete!' in result.stdout or 'Nothing to do' in result.stdout"
       failed_when: result.rc != 0 and not ('Nothing to do' in result.stdout or 'already installed' in result.stdout)
@@ -42,13 +42,14 @@
         sudo systemctl enable crond
         sudo systemctl start crond
 
-    # - name: test
-    #   raw: |
-    #     sudo chown -R ec2-user:ec2-user /home/ec2-user/
+    - name: test
+      raw: |
+        mkdir /home/ec2-user/log
+        touch /home/ec2-user/log/python_script.log
 
-    # - name: Adicionar entrada no crontab manualmente
-    #   raw: |
-    #     (crontab -l 2>/dev/null; cat << 'EOF'
-    #     2 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /home/ec2-user/log/python_script.log 2>&1
-    #     EOF
-    #     ) | crontab -
+    - name: Adicionar entrada no crontab manualmente
+      raw: |
+        (crontab -l 2>/dev/null; cat << 'EOF'
+        2 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /home/ec2-user/log/python_script.log 2>&1
+        EOF
+        ) | crontab -

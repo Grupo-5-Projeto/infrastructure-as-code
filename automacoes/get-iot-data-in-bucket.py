@@ -38,7 +38,7 @@ try:
 
     latest_objects = [
         v for v in response.get('Versions', [])
-        if v.get('IsLatest', False)
+        if v.get('IsLatest', False) and v.get('Key', '') != "iot/"
     ]
     print(latest_objects)
 

@@ -14,26 +14,33 @@ PREFIXO = 'iot'
 ARQUIVO_CONTROLE = '/home/ec2-user/automacoes/arquivos_processados.json'
 
 try:
+    print('inicio')
     s3 = boto3.client('s3')
 
     # Carrega ou cria o arquivo de controle
     if os.path.exists(ARQUIVO_CONTROLE):
+        print('arquivo de controle existe')
         with open(ARQUIVO_CONTROLE, 'r') as f:
             arquivos_processados = set(json.load(f))
     else:
         arquivos_processados = set()
         with open(ARQUIVO_CONTROLE, 'w') as f:
             json.dump([], f)
+        print('arquivo de controle nao existe')
 
     hoje = datetime.now(pytz.timezone("America/Sao_paulo")).date()
     novos_arquivos = []
+    print(hoje)
+
 
     response = s3.list_object_versions(Bucket=BUCKET_RAW, Prefix=PREFIXO)
+    print(response)
 
     latest_objects = [
         v for v in response.get('Versions', [])
         if v.get('IsLatest', False)
     ]
+    print(latest_objects)
 
     for item in latest_objects:
         chave = item['Key']

@@ -44,10 +44,10 @@
 
     - name: test
       raw: |
-        sudo chmod -R 755 /home/ec2-user/automacoes
         mkdir /home/ec2-user/log
-        sudo chmod -R 755 /home/ec2-user/log
         touch /home/ec2-user/log/python_script.log
+        touch /home/ec2-user/automacoes/arquivos_processados.json
+        sudo chmod 646 /home/ec2-user/automacoes/arquivos_processados.json
 
     - name: Adicionar entrada no crontab manualmente
       raw: |

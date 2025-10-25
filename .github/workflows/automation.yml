@@ -52,6 +52,8 @@ jobs:
 
       - name: deploy
         run: |
+          ls
+          echo ${{env.EC2_ID}}
           aws cloudformation deploy \
           --stack-name cloudwatch-dashboard \
           --template-file ./cloudwatch-dashboard.yaml \

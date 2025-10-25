@@ -81,7 +81,7 @@ Resources:
                       "view": "singleValue",
                       "stacked": false,
                       "metrics": [
-                          [ "AWS/EC2", "StatusCheckFailed", "InstanceId", \"${InstanceID}"\ ],
+                          [ "AWS/EC2", "StatusCheckFailed", "InstanceId", "${InstanceID}" ],
                           [ ".", "NetworkOut", ".", "." ],
                           [ ".", "NetworkIn", ".", "." ],
                           [ ".", "CPUUtilization", ".", "." ]

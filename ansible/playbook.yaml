@@ -38,11 +38,14 @@
 
     - name: Clonar ou atualizar repositório via raw
       raw: |
-        if [ -d "/home/ec2-user/tratativas-bases/.git" ]; then
-          cd /home/ec2-user/tratativas-bases && git pull
+        /bin/bash -c '
+        REPO_DIR="/home/ec2-user/tratativas-bases"
+        if [ -d "$REPO_DIR/.git" ]; then
+          cd "$REPO_DIR" && git pull
         else
-          git clone https://github.com/Grupo-5-Projeto/tratativas-bases.git /home/ec2-user/tratativas-bases
+          git clone https://github.com/Grupo-5-Projeto/tratativas-bases.git "$REPO_DIR"
         fi
+        '
 
 
     - name: start docker compose

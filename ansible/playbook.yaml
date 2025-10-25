@@ -32,9 +32,19 @@
       changed_when: "'Complete!' in result.stdout or 'Nothing to do' in result.stdout"
       failed_when: result.rc != 0 and not ('Nothing to do' in result.stdout or 'already installed' in result.stdout)
 
-    - name: start docker compose
+    - name: install git
       raw: |
         sudo yum install -y git
+
+    - name: Clonar ou atualizar repositório
+      git:
+        repo: 'git@github.com:Grupo-5-Projeto/tratativas-bases.git'
+        dest: /home/ec2-user/meu-repo
+        version: main
+        update: yes
+        force: yes
+        accept_hostkey: yes
+
 
     - name: start docker compose
       raw: |
@@ -53,9 +63,7 @@
         [ ! -f /home/ec2-user/automacoes/arquivos_processados.json ] && echo "[]" > /home/ec2-user/automacoes/arquivos_processados.json
         sudo chmod 646 /home/ec2-user/automacoes/arquivos_processados.json
 
-    - name: Adicionar entrada no crontab manualmente
+    - name: Adicionar entrada no crontab manualmente sem duplicar
       raw: |
-        (crontab -l 2>/dev/null; cat << 'EOF'
-        */5 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /home/ec2-user/log/python_script.log 2>> /home/ec2-user/log/python_error.log
-        EOF
-        ) | crontab -
+        grep -qxF "*/5 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /home/ec2-user/log/python_script.log 2>> /home/ec2-user/log/python_error.log" <(crontab -l 2>/dev/null) || \
+        (crontab -l 2>/dev/null; echo "*/5 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /home/ec2-user/log/python_script.log 2>> /home/ec2-user/log/python_error.log") | crontab -

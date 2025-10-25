@@ -30,6 +30,33 @@ jobs:
     needs: infra-as-code
     uses: Grupo-5-Projeto/lambdas/.github/workflows/deploy.yml@main
     secrets: inherit
+  
+  create-dashboard-cloudwatch:
+    needs: infra-as-code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_ORG }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ORG }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN_ORG }}
+          aws-region: ${{ secrets.AWS_REGION_ORG }}
+      
+      - name: get ec2 public ip
+        run: |
+          EC2_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=arquitetura-upa-atualizada-sptech" --query "Reservations[*].InstanceId" --output text)
+          echo "EC2_ID=$EC2_ID" >> $GITHUB_ENV
+
+      - name: deploy
+        run: |
+          aws cloudformation deploy \
+          --stack-name cloudwatch-dashboard \
+          --template-file ./cloudwatch-dashboard.yaml \
+          --parameter-overrides InstanceID=${{env.EC2_ID}}
+
 
   call-tratativas-workflow:
     needs: infra-as-code
@@ -83,6 +110,7 @@ jobs:
           cd ./automacoes
           echo "BUCKET_RAW=${{ vars.BUCKET_RAW }}" > .env
           echo "BUCKET_TRUSTED=${{ vars.BUCKET_TRUSTED }}" >> .env
+          echo "BUCKET_CLIENT=${{ vars.BUCKET_CLIENT }}" >> .env
           cat .env
 
       - name: copy automacoes archives to instace

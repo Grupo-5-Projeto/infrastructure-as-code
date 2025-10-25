@@ -1,0 +1,155 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  InstanceID:
+    Type: String
+
+Resources:
+  CloudWatchDashboard:
+    Type: AWS::CloudWatch::Dashboard
+    Properties:
+      DashboardName: UpaConnect-Resource-Analytics
+      DashboardBody: !Sub | {
+          "widgets": [
+              {
+                  "type": "metric",
+                  "x": 1,
+                  "y": 0,
+                  "width": 12,
+                  "height": 7,
+                  "properties": {
+                      "view": "timeSeries",
+                      "stacked": false,
+                      "metrics": [
+                          [ "AWS/Lambda", "Duration", "FunctionName", "LambdaInputData" ],
+                          [ "...", "LambdaProcessorDynamo" ]
+                      ],
+                      "region": "us-east-1",
+                      "legend": {
+                          "position": "bottom"
+                      },
+                      "title": "Duração das Execuções dos Lambdas"
+                  }
+              },
+              {
+                  "type": "metric",
+                  "x": 13,
+                  "y": 0,
+                  "width": 5,
+                  "height": 7,
+                  "properties": {
+                      "metrics": [
+                          [ "AWS/Lambda", "Errors", "FunctionName", "LambdaInputData", { "color": "#d62728", "region": "us-east-1" } ],
+                          [ ".", "Invocations", ".", ".", { "color": "#1f77b4", "region": "us-east-1" } ]
+                      ],
+                      "view": "pie",
+                      "region": "us-east-1",
+                      "stacked": false,
+                      "setPeriodToTimeRange": true,
+                      "title": "Invocações /Erros - Lambda de Entrada",
+                      "stat": "Average",
+                      "period": 300
+                  }
+              },
+              {
+                  "type": "metric",
+                  "x": 18,
+                  "y": 0,
+                  "width": 5,
+                  "height": 7,
+                  "properties": {
+                      "metrics": [
+                          [ "AWS/Lambda", "Invocations", "FunctionName", "LambdaProcessorDynamo" ],
+                          [ ".", "Errors", ".", ".", { "color": "#d62728" } ]
+                      ],
+                      "view": "pie",
+                      "region": "us-east-1",
+                      "stacked": false,
+                      "setPeriodToTimeRange": true,
+                      "title": "Invocações/Erros - Lambda de Processamento",
+                      "stat": "Average",
+                      "period": 300
+                  }
+              },
+              {
+                  "type": "metric",
+                  "x": 13,
+                  "y": 10,
+                  "width": 10,
+                  "height": 3,
+                  "properties": {
+                      "view": "singleValue",
+                      "stacked": false,
+                      "metrics": [
+                          [ "AWS/EC2", "StatusCheckFailed", "InstanceId", "${InstanceID}" ],
+                          [ ".", "NetworkOut", ".", "." ],
+                          [ ".", "NetworkIn", ".", "." ],
+                          [ ".", "CPUUtilization", ".", "." ]
+                      ],
+                      "region": "us-east-1",
+                      "title": "Informações da Instância EC2"
+                  }
+              },
+              {
+                  "type": "metric",
+                  "x": 1,
+                  "y": 7,
+                  "width": 12,
+                  "height": 6,
+                  "properties": {
+                      "metrics": [
+                          [ "AWS/ApiGateway", "4XXError", "ApiName", "ApiGatewayIoT", { "color": "#ff7f0e" } ],
+                          [ ".", "5XXError", ".", ".", { "color": "#d62728" } ]
+                      ],
+                      "view": "timeSeries",
+                      "stacked": true,
+                      "region": "us-east-1",
+                      "stat": "Average",
+                      "period": 300,
+                      "title": "Distriuição de Erros por Horário"
+                  }
+              },
+              {
+                  "type": "metric",
+                  "x": 13,
+                  "y": 7,
+                  "width": 10,
+                  "height": 3,
+                  "properties": {
+                      "view": "singleValue",
+                      "stacked": true,
+                      "metrics": [
+                          [ "AWS/ApiGateway", "IntegrationLatency", "ApiName", "ApiGatewayIoT", { "region": "us-east-1" } ],
+                          [ ".", "Latency", ".", ".", { "region": "us-east-1" } ]
+                      ],
+                      "region": "us-east-1",
+                      "title": "Latência API",
+                      "period": 300,
+                      "setPeriodToTimeRange": true
+                  }
+              },
+              {
+                  "type": "metric",
+                  "x": 1,
+                  "y": 13,
+                  "width": 12,
+                  "height": 4,
+                  "properties": {
+                      "view": "singleValue",
+                      "stacked": true,
+                      "metrics": [
+                          [ "AWS/Billing", "EstimatedCharges", "ServiceName", "AmazonApiGateway", "Currency", "USD", { "period": 21600, "stat": "Maximum" } ],
+                          [ "...", "AmazonDynamoDB", ".", ".", { "period": 21600, "stat": "Maximum" } ],
+                          [ "...", "AmazonEC2", ".", ".", { "period": 21600, "stat": "Maximum" } ],
+                          [ "...", "AmazonS3", ".", ".", { "period": 21600, "stat": "Maximum" } ],
+                          [ "...", "AWSLambda", ".", ".", { "period": 21600, "stat": "Maximum" } ]
+                      ],
+                      "region": "us-east-1",
+                      "liveData": false,
+                      "setPeriodToTimeRange": true,
+                      "sparkline": false,
+                      "singleValueFullPrecision": false,
+                      "title": "Estimativa de encargos"
+                  }
+              }
+          ]
+        }

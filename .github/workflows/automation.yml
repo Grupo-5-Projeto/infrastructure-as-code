@@ -47,13 +47,11 @@ jobs:
       
       - name: get ec2 public ip
         run: |
-          EC2_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=arquitetura-upa-atualizada-sptech" --query "Reservations[*].InstanceId" --output text)
+          EC2_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=arquitetura-upa-atualizada-sptech" --query "Reservations[*].Instances[*].InstanceId" --output text)
           echo "EC2_ID=$EC2_ID" >> $GITHUB_ENV
 
       - name: deploy
         run: |
-          ls
-          echo ${{env.EC2_ID}}
           aws cloudformation deploy \
           --stack-name cloudwatch-dashboard \
           --template-file ./cloudwatch-dashboard.yaml \

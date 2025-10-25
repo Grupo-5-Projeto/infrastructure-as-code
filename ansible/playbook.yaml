@@ -41,7 +41,7 @@
         if [ -d "/home/ec2-user/tratativas-bases/.git" ]; then
           cd /home/ec2-user/tratativas-bases && git pull
         else
-          git clone git@github.com:Grupo-5-Projeto/tratativas-bases.git /home/ec2-user/tratativas-bases
+          git clone https://github.com/Grupo-5-Projeto/tratativas-bases.git /home/ec2-user/tratativas-bases
         fi
 
 

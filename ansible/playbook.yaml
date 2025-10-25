@@ -36,14 +36,13 @@
       raw: |
         sudo yum install -y git
 
-    - name: Clonar ou atualizar repositório
-      git:
-        repo: 'git@github.com:Grupo-5-Projeto/tratativas-bases.git'
-        dest: /home/ec2-user/meu-repo
-        version: main
-        update: yes
-        force: yes
-        accept_hostkey: yes
+    - name: Clonar ou atualizar repositório via raw
+      raw: |
+        if [ -d "/home/ec2-user/tratativas-bases/.git" ]; then
+          cd /home/ec2-user/tratativas-bases && git pull
+        else
+          git clone git@github.com:Grupo-5-Projeto/tratativas-bases.git /home/ec2-user/tratativas-bases
+        fi
 
 
     - name: start docker compose

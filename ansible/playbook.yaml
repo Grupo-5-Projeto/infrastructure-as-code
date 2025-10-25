@@ -34,6 +34,10 @@
 
     - name: start docker compose
       raw: |
+        sudo yum install -y git
+
+    - name: start docker compose
+      raw: |
         cd docker
         docker compose up -d
 

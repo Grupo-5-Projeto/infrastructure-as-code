@@ -58,10 +58,10 @@ jobs:
           --parameter-overrides InstanceID=${{env.EC2_ID}}
 
 
-  call-tratativas-workflow:
-    needs: infra-as-code
-    uses: Grupo-5-Projeto/Cloud/.github/workflows/main.yml@main
-    secrets: inherit
+  # call-tratativas-workflow:
+  #   needs: infra-as-code
+  #   uses: Grupo-5-Projeto/Cloud/.github/workflows/main.yml@main
+  #   secrets: inherit
 
   instances-config:
     needs: infra-as-code

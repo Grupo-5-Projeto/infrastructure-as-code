@@ -58,7 +58,7 @@ try:
         print(arquivo)
         try:
             pm.execute_notebook(
-                input_path='/home/ec2-user/tratativas-bases/tratativa-tabela-sensores.ipynb',
+                input_path='/home/ec2-user/tratativas-bases/registros/tratativa-tabela-sensores.ipynb',
                 output_path='saida.ipynb',
                 parameters={
                     'archive_name': arquivo,

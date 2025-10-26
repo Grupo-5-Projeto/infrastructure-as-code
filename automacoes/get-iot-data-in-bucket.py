@@ -10,7 +10,7 @@ load_dotenv('/home/ec2-user/automacoes/.env')
 
 BUCKET_RAW = os.getenv("BUCKET_RAW")
 BUCKET_TRUSTED = os.getenv("BUCKET_TRUSTED")
-PREFIXO = 'iot'
+PREFIXO = 'arquivos'
 ARQUIVO_CONTROLE = '/home/ec2-user/automacoes/arquivos_processados.json'
 
 try:

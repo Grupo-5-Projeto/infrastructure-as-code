@@ -57,12 +57,17 @@
         sudo systemctl enable crond
         sudo systemctl start crond
 
-    - name: test
+    - name: arquivo para controle
       raw: |
         mkdir /home/ec2-user/log
         touch /home/ec2-user/log/python_script.log
         [ ! -f /home/ec2-user/automacoes/arquivos_processados.json ] && echo "[]" > /home/ec2-user/automacoes/arquivos_processados.json
         sudo chmod 646 /home/ec2-user/automacoes/arquivos_processados.json
+    
+    - name: arquivo para controle 2
+      raw: |
+        [ ! -f /home/ec2-user/automacoes/ultima_verificacao.json ] && echo "[]" > /home/ec2-user/automacoes/ultima_verificacao.json
+        sudo chmod 646 /home/ec2-user/automacoes/ultima_verificacao.json
 
     - name: Adicionar entrada no crontab manualmente sem duplicar 1
       raw: |

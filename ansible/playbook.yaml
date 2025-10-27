@@ -77,3 +77,10 @@
         (crontab -l 2>/dev/null | grep -Fx "$LINE") || (crontab -l 2>/dev/null; echo "$LINE") | crontab -
         '
 
+    - name: Adicionar entrada no crontab manualmente sem duplicar 2
+      raw: |
+        /bin/bash -c '
+        LINE="*/5 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-registros-trusted-client.py >> /home/ec2-user/log/python_script.log 2>> /home/ec2-user/log/python_error.log"
+        (crontab -l 2>/dev/null | grep -Fx "$LINE") || (crontab -l 2>/dev/null; echo "$LINE") | crontab -
+        '
+

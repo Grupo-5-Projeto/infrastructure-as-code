@@ -43,7 +43,7 @@ def verificar_atualizacoes():
     status_anterior = carregar_status_anterior()
     status_atual = {}
     atualizados = []
-    
+
     for arquivo in ARQUIVOS_ESPECIFICOS:
         key = f"{PREFIXO}{arquivo}" if PREFIXO else arquivo
         try:
@@ -71,7 +71,7 @@ def verificar_atualizacoes():
     else:
         try:
             pm.execute_notebook(
-                input_path='/home/ec2-user/tratativas-bases/registros/tratativa-tabela-atendimento.ipynb',
+                input_path='/home/ec2-user/tratativas-bases/registros/tratativa-tabelao-sensores-atendimento.ipynb',
                 output_path='saida3.ipynb',
                 parameters={
                     'trusted_bucket': BUCKET_TRUSTED,

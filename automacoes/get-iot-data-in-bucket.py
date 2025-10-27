@@ -40,7 +40,6 @@ try:
         if (
             v.get('IsLatest', False)
             and v.get('Key', '') != "arquivos/"
-            and re.match(r'^\d{4}_\d{2}_\d{2}', v.get('Key', ''))
         )
     ]
 

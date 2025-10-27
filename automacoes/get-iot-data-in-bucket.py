@@ -11,7 +11,7 @@ load_dotenv('/home/ec2-user/automacoes/.env')
 
 BUCKET_RAW = os.getenv("BUCKET_RAW")
 BUCKET_TRUSTED = os.getenv("BUCKET_TRUSTED")
-PREFIXO = 'arquivos'
+PREFIXO = 'arquivos/'
 ARQUIVO_CONTROLE = '/home/ec2-user/automacoes/arquivos_processados.json'
 
 try:
@@ -46,11 +46,14 @@ try:
 
     for item in latest_objects:
         chave = item['Key']
+        print(chave)
+        chave_modificada = chave.replace(PREFIXO, "", 1)
+        print(chave_modificada)
         data_modificacao = item['LastModified'].astimezone(
             pytz.timezone("America/Sao_paulo")
         ).date()
 
-        if data_modificacao == hoje and chave not in arquivos_processados:
+        if data_modificacao == hoje and chave not in arquivos_processados and re.match(r'^\d{4}_\d{2}_\d{2}', chave_modificada):
             print("arquivo para processar", chave)
             novos_arquivos.append(chave)
         else:

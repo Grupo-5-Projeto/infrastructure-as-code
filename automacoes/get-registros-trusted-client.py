@@ -3,6 +3,10 @@ import json
 import os
 from datetime import datetime, timezone
 import papermill as pm
+from dotenv import load_dotenv
+
+
+load_dotenv('/home/ec2-user/automacoes/.env')
 
 # ⚙️ Configurações
 BUCKET_TRUSTED = os.getenv("BUCKET_TRUSTED")
@@ -39,11 +43,7 @@ def verificar_atualizacoes():
     status_anterior = carregar_status_anterior()
     status_atual = {}
     atualizados = []
-
-    print(status_anterior)
-    print(BUCKET_TRUSTED)
-    print(BUCKET_CLIENT)
-
+    
     for arquivo in ARQUIVOS_ESPECIFICOS:
         key = f"{PREFIXO}{arquivo}" if PREFIXO else arquivo
         try:

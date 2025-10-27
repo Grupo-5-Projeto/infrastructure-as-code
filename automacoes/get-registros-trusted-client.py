@@ -40,6 +40,10 @@ def verificar_atualizacoes():
     status_atual = {}
     atualizados = []
 
+    print(status_anterior)
+    print(BUCKET_TRUSTED)
+    print(BUCKET_CLIENT)
+
     for arquivo in ARQUIVOS_ESPECIFICOS:
         key = f"{PREFIXO}{arquivo}" if PREFIXO else arquivo
         try:

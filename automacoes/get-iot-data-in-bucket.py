@@ -5,6 +5,7 @@ import json
 import os
 import pytz
 from dotenv import load_dotenv
+import re
 
 load_dotenv('/home/ec2-user/automacoes/.env')
 
@@ -32,15 +33,16 @@ try:
     novos_arquivos = []
     print(hoje)
 
-
     response = s3.list_object_versions(Bucket=BUCKET_RAW, Prefix=PREFIXO)
-    print(response)
 
     latest_objects = [
         v for v in response.get('Versions', [])
-        if v.get('IsLatest', False) and v.get('Key', '') != "iot/"
+        if (
+            v.get('IsLatest', False)
+            and v.get('Key', '') != "arquivos/"
+            and re.match(r'^\d{4}_\d{2}_\d{2}', v.get('Key', ''))
+        )
     ]
-    print(latest_objects)
 
     for item in latest_objects:
         chave = item['Key']

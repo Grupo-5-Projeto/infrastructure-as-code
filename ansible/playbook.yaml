@@ -64,9 +64,16 @@
         [ ! -f /home/ec2-user/automacoes/arquivos_processados.json ] && echo "[]" > /home/ec2-user/automacoes/arquivos_processados.json
         sudo chmod 646 /home/ec2-user/automacoes/arquivos_processados.json
 
-    - name: Adicionar entrada no crontab manualmente sem duplicar
+    - name: Adicionar entrada no crontab manualmente sem duplicar 1
       raw: |
         /bin/bash -c '
         LINE="*/5 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-iot-data-in-bucket.py >> /home/ec2-user/log/python_script.log 2>> /home/ec2-user/log/python_error.log"
         (crontab -l 2>/dev/null | grep -Fx "$LINE") || (crontab -l 2>/dev/null; echo "$LINE") | crontab -
         '
+    - name: Adicionar entrada no crontab manualmente sem duplicar 2
+      raw: |
+        /bin/bash -c '
+        LINE="*/5 * * * * /usr/bin/python3 /home/ec2-user/automacoes/get-atendimentos-in-bucket.py >> /home/ec2-user/log/python_script.log 2>> /home/ec2-user/log/python_error.log"
+        (crontab -l 2>/dev/null | grep -Fx "$LINE") || (crontab -l 2>/dev/null; echo "$LINE") | crontab -
+        '
+

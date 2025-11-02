@@ -168,7 +168,7 @@ Resources:
   S3BucketRaw:
     Type: "AWS::S3::Bucket"
     Properties:
-      BucketName: raw-iot-final-data-edu-test
+      BucketName: raw-iot-final-data-edu-upa
       PublicAccessBlockConfiguration:
         BlockPublicAcls: false
         BlockPublicPolicy: false
@@ -200,7 +200,7 @@ Resources:
   S3BucketTrusted:
     Type: "AWS::S3::Bucket"
     Properties:
-      BucketName: trusted-iot-final-data-edu-test
+      BucketName: trusted-iot-final-data-edu-upa
       PublicAccessBlockConfiguration:
         BlockPublicAcls: false
         BlockPublicPolicy: false
@@ -230,7 +230,7 @@ Resources:
   S3BucketClient:
     Type: "AWS::S3::Bucket"
     Properties:
-      BucketName: client-iot-final-data-edu-test
+      BucketName: client-iot-final-data-edu-upa
       PublicAccessBlockConfiguration:
         BlockPublicAcls: false
         BlockPublicPolicy: false

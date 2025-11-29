@@ -9,6 +9,9 @@ services:
       - AWS_ACCESS_KEY_ID=${ACCESS_KEY}
       - AWS_SECRET_ACCESS_KEY=${SECRET_ACCESS_KEY}
       - AWS_SESSION_TOKEN=${SESSION_TOKEN}
+      - GF_SERVER_ROOT_URL=http://${EC2_IP_PUBLICO}:3000
+      - GF_SERVER_DOMAIN=${EC2_IP_PUBLICO}
+
     volumes:
       - grafana-storage:/var/lib/grafana
       - ~/grafana-aws/credentials:/root/.aws/credentials:ro

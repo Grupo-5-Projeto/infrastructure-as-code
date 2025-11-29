@@ -100,6 +100,7 @@ jobs:
           echo "ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID_ORG }}" > .env
           echo "SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_ORG }}" >> .env
           echo "SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN_ORG }}" >> .env
+          echo "EC2_IP_PUBLICO=${{ env.EC2_IP }}" >> .env
 
       - name: copy docker archives to instace
         run: |
